@@ -93,13 +93,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
+	
 	<distributionManagement>
 	    <repository>
 	      <id>nexus</id>
@@ -112,7 +106,15 @@
 	      <name>Landmark Technologies Snapshot Nexus Repository </name>
 	      <url>http://localhost:8081/repository/docker-snapshot/</url>
 	    </snapshotRepository>
-	    
 	</distributionManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	
 	</build>
 </project>
