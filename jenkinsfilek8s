@@ -4,27 +4,26 @@ pipeline{
     maven "maven3.8.4"
   }
 stages{
-stage('1.SCM Checkout'){
+stage('SCM Checkout'){
      steps{
- git 'https://github.com/LandmarkTec26/spring-boot-docker.git'
+ git 'https://github.com/LandmarkTec26/spring-boot-docker'
 }
 }  
-stage('2.maven-Build'){ 
+stage('maven-Build'){ 
 steps{
     sh "mvn clean package"
   }
 }
-stage('3.CodeQuality'){ 
+stage('code quality'){ 
 steps{
     sh "mvn sonar:sonar"
   }
 }
-stage('4.UploadArtifacts'){ 
+stage('upload artifact'){ 
 steps{
     sh "mvn deploy"
   }
 }
-
 stage('approval'){
 steps{
 timeout (time:5, unit:'HOURS'){
@@ -34,24 +33,29 @@ input message: "please verify and approve"
 }
 stage('Build Docker Image'){
 steps{
-sh "docker build -t kidunnu/spring-boot-mongo ."
+sh "docker build -t joshayeni/spring-boot-mongo ."
     }
 }
 stage('Push Docker Image'){
 steps{
-      withCredentials([string(credentialsId: 'mydockercred', variable: 'mydockercred')]) {
-      sh "docker login -u kidunnu -p ${mydockercred}" 
+    withCredentials([usernamePassword(credentialsId: 'Dockercred', passwordVariable: 'passWD', usernameVariable: 'uName')]) {
+    sh "docker login -u ${uName} -p ${passWD}"
+    sh "docker push joshayeni/spring-boot-mongo"
+    }
 }
-      sh "docker push kidunnu/spring-boot-mongo"
-}
-}
+
 stage("Deploy To Kuberates Cluster"){
-steps{   
-         kubernetesDeploy(
+       kubernetesDeploy(
          configs: 'springBootMongo.yml', 
          kubeconfigId: 'KUBERNATES_CONFIG',
          enableConfigSubstitution: true
         )
+     }
+
+stage('Deploy To Kuberates Cluster'){
+steps{
+        sh "kubectl apply -f springapp.yml"
+      } 
      }
 }
 }
