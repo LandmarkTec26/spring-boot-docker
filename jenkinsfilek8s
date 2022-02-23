@@ -52,11 +52,6 @@ stage("Deploy To Kuberates Cluster"){
          enableConfigSubstitution: true
         )
      }
-
-stage('Deploy To Kuberates Cluster'){
-steps{
-        sh "kubectl apply -f springapp.yml"
-      } 
-     }
+}
 }
 }
