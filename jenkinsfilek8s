@@ -54,4 +54,3 @@ stage("Deploy To Kuberates Cluster"){
      }
 }
 }
-}
