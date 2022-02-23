@@ -6,7 +6,7 @@ pipeline{
 stages{
 stage('SCM Checkout'){
      steps{
- git 'https://github.com/LandmarkTec26/spring-boot-docker'
+ git 'https://github.com/LandmarkTec26/spring-boot-docker.git'
 }
 }  
 stage('maven-Build'){ 
