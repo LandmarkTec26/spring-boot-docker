@@ -41,7 +41,6 @@ steps{
     withCredentials([usernamePassword(credentialsId: 'Dockercred', passwordVariable: 'passWD', usernameVariable: 'uName')]) {
     sh "docker login -u ${uName} -p ${passWD}"
     }
- steps{
     sh "docker push joshayeni/spring-boot-mongo"
     }
 }
